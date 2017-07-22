@@ -18,17 +18,20 @@ public class UserSignIn extends ActionSupport {
 	private UserInfo user = new UserInfo();
 
 	public String signIn() {
-		System.out.println("被访问了");
 		try {
+			String name = null,phoneNum=null;
 			if (isPhoneNum(info.getMessageTo())) {
-				info.setPhoneNum(info.getMessageTo());
-				info.setName(getUserName());
+				phoneNum=info.getMessageTo();
+				info.setPhoneNum(phoneNum);
+				name=getUserName();
+				
+				info.setName(name);
 			} else {
-				info.setName(info.getMessageTo());
-				info.setPhoneNum(getPhoneNum());
+				name=info.getMessageTo();
+				info.setName(name);
+				phoneNum=getPhoneNum();
+				info.setPhoneNum(phoneNum);
 			}
-			String name = getUserName();
-			String phoneNum = getPhoneNum();
 			if (name == null || phoneNum == null) {
 				dataMap.put("error", "password incorrect or user doesn't exist");
 				closeDataBase(conn);
@@ -40,10 +43,9 @@ public class UserSignIn extends ActionSupport {
 						+ dealInfo(info.getOp_time()) + "," + dealInfo(info.getDevice()) + ","
 						+ dealInfo(info.getLocation()) + "," + dealInfo(info.getMessageContent()) + ")";
 				Statement stmt = conn.createStatement();
-				System.out.println(sql);
 				stmt.executeUpdate(sql);
-				user.setPassword(info.getMessageContent());
-				user.setName(name);
+				user.setPassWord(info.getMessageContent());
+				user.setUserName(name);
 				user.setPhoneNum(info.getPhoneNum());
 				dataMap.put("success", user);
 				closeDataBase(conn);
@@ -76,8 +78,9 @@ public class UserSignIn extends ActionSupport {
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery(sql);
 		while (rs.next()) {
-			if (rs.getString(1).equals(info.getMessageContent()))
+			if (rs.getString(1).equals(info.getMessageContent())) {
 				return rs.getString(2);
+			}
 			else
 				return null;
 		}
