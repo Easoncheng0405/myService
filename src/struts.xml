@@ -4,6 +4,7 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
+	<constant name="struts.multipart.maxSize" value="10485760" />
 	<package name="default" namespace="/" extends="struts-default,json-default">
         <action name="signUp" class="common.UserSignUp" method="signUp">
         	<result type="json">
@@ -20,8 +21,15 @@
         		<param name="root">dataMap</param>
         	</result>
         </action>
+        <action name="fileUpLoad" class="common.FileUploadAction">
+        	<result>
+        		ok
+        	</result>
+        </action>
         <action name="">
-        	<result>README.MD</result>
+        	<result>
+        		README.MD
+        	</result>
         </action>
     </package>
 </struts>
