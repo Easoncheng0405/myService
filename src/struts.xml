@@ -31,5 +31,10 @@
         		README.MD
         	</result>
         </action>
+        <action name="upLoadTeacherInfo" class="common.UpLoadTeacherInfo" method="upLoadTeacherInfo">
+        <result type="json">
+        		<param name="root">dataMap</param>
+        	</result>
+        </action>
     </package>
 </struts>
